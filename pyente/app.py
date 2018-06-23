@@ -2,7 +2,7 @@ import sys
 
 import pkg_resources
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QAction, QApplication, QDesktopWidget, QDialog, QFileDialog, QGroupBox,
                              QHBoxLayout, QLabel, QMainWindow, QToolBar, QVBoxLayout, QWidget)
@@ -26,8 +26,23 @@ class Ente(QMainWindow):
 
         self.layout.addWidget(self.about())
 
+        self.addToolBar(self.user_toolbar())
+
         self.status_bar = self.statusBar()
         self.status_bar.showMessage('Ready', 5000)
+
+    def user_toolbar(self):
+        user_toolbar = QToolBar('User')
+        user_toolbar.setIconSize(QSize(14, 14))
+
+        activate_action = QAction('Activate machine(s) now (Space)', self)
+        activate_action.setStatusTip('Activate machine(s) now')
+        activate_action.setShortcut('SPACE')
+        activate_action.triggered.connect(self.activate)
+
+        user_toolbar.addAction(activate_action)
+
+        return user_toolbar
 
     def about(self):
         """Create a group box that shows application information."""
@@ -50,6 +65,9 @@ class Ente(QMainWindow):
 
         about.setLayout(about_layout)
         return about
+
+    def activate(self):
+        print('activated!')  # TODO actually activate
 
 
 def main():
