@@ -3,8 +3,8 @@ import sys
 import pkg_resources
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import (QAction, QApplication, QDesktopWidget, QDialog, QFileDialog,
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import (QAction, QApplication, QDesktopWidget, QDialog, QFileDialog, QGroupBox,
                              QHBoxLayout, QLabel, QMainWindow, QToolBar, QVBoxLayout, QWidget)
 
 
@@ -24,24 +24,16 @@ class Ente(QMainWindow):
         self.layout = QHBoxLayout(self.widget)
         self.setCentralWidget(self.widget)
 
-        self.about_dialog = AboutDialog()
+        self.layout.addWidget(self.about())
 
         self.status_bar = self.statusBar()
         self.status_bar.showMessage('Ready', 5000)
 
-
-class AboutDialog(QDialog):
-    """Create the necessary elements to show helpful text in a dialog."""
-
-    def __init__(self, parent=None):
-        """Display a dialog that shows application information."""
-        super(AboutDialog, self).__init__(parent)
-
-        self.setWindowTitle('About')
-        help_icon = pkg_resources.resource_filename('pyente.images',
-                                                    'ic_help_black_48dp_1x.png')
-        self.setWindowIcon(QIcon(help_icon))
-        self.resize(300, 200)
+    def about(self):
+        """Create a group box that shows application information."""
+        about = QGroupBox('About')
+        about_layout = QVBoxLayout()
+        about_layout.setAlignment(Qt.AlignVCenter)
 
         author = QLabel('TvK Wasch-AG')
         author.setAlignment(Qt.AlignCenter)
@@ -52,14 +44,12 @@ class AboutDialog(QDialog):
         github = QLabel('GitHub: waschag-tvk')
         github.setAlignment(Qt.AlignCenter)
 
-        self.layout = QVBoxLayout()
-        self.layout.setAlignment(Qt.AlignVCenter)
+        about_layout.addWidget(author)
+        about_layout.addWidget(icons)
+        about_layout.addWidget(github)
 
-        self.layout.addWidget(author)
-        self.layout.addWidget(icons)
-        self.layout.addWidget(github)
-
-        self.setLayout(self.layout)
+        about.setLayout(about_layout)
+        return about
 
 
 def main():
