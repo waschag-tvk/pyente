@@ -22,6 +22,7 @@ class Ente(QMainWindow):
 
         self.widget = QWidget()
         self.layout = QHBoxLayout(self.widget)
+        self.setCentralWidget(self.widget)
 
         self.about_dialog = AboutDialog()
 
