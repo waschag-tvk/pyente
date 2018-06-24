@@ -5,8 +5,10 @@ import pkg_resources
 
 from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import (QAction, QApplication, QDesktopWidget, QDialog, QFileDialog, QGroupBox,
-                             QHBoxLayout, QLabel, QMainWindow, QToolBar, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+        QAction, QApplication, QDesktopWidget, QGroupBox, QHBoxLayout,
+        QInputDialog, QLabel, QLineEdit, QMainWindow, QToolBar, QVBoxLayout,
+        QWidget)
 
 
 class Ente(QMainWindow):
@@ -88,7 +90,12 @@ class Ente(QMainWindow):
         return clock
 
     def activate(self):
-        print('activated!')  # TODO actually activate
+        username, _ = QInputDialog.getText(
+                self, 'Login', 'Please enter your wasch username')
+        password, _ = QInputDialog.getText(
+                self, 'Password', 'Password for {}'.format(username),
+                QLineEdit.Password)
+        print('activated by {}!'.format(username))  # TODO actually activate
 
 
 def main():
