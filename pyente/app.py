@@ -1,8 +1,9 @@
 import sys
 
+import datetime
 import pkg_resources
 
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtCore import Qt, QSize, QTimer
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QAction, QApplication, QDesktopWidget, QDialog, QFileDialog, QGroupBox,
                              QHBoxLayout, QLabel, QMainWindow, QToolBar, QVBoxLayout, QWidget)
@@ -21,9 +22,12 @@ class Ente(QMainWindow):
         self.setWindowIcon(QIcon(window_icon))
 
         self.widget = QWidget()
-        self.layout = QHBoxLayout(self.widget)
+        self.layout = QVBoxLayout(self.widget)
         self.setCentralWidget(self.widget)
 
+        self.clock_timer = QTimer()
+
+        self.layout.addWidget(self.clock(self.clock_timer))
         self.layout.addWidget(self.about())
 
         self.addToolBar(self.user_toolbar())
@@ -65,6 +69,23 @@ class Ente(QMainWindow):
 
         about.setLayout(about_layout)
         return about
+
+    def clock(self, timer):
+        clock = QGroupBox('Clock')
+        clock_layout = QHBoxLayout()
+        display = QLabel('TIME')
+        display.setAlignment(Qt.AlignCenter)
+        display.setStyleSheet('font-size: 96pt; background-color: Gold')
+        clock_layout.addWidget(display)
+        clock.setLayout(clock_layout)
+
+        def showtime():
+            display.setText(
+                    datetime.datetime.now().timetz().strftime('%H:%M:%S'))
+
+        timer.timeout.connect(showtime)
+        timer.start(1000)
+        return clock
 
     def activate(self):
         print('activated!')  # TODO actually activate
