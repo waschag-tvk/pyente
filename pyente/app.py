@@ -10,6 +10,8 @@ from PyQt5.QtWidgets import (
         QInputDialog, QLabel, QLineEdit, QMainWindow, QToolBar, QVBoxLayout,
         QWidget)
 
+from .control import Control
+
 
 class Ente(QMainWindow):
     """Create the main window that stores all of the widgets necessary for the application."""
@@ -19,6 +21,7 @@ class Ente(QMainWindow):
         super(Ente, self).__init__(parent)
         self.resize(1024, 768)
         self.setWindowTitle('Ente')
+        self.control = Control()
         window_icon = pkg_resources.resource_filename('pyente.images',
                                                       'ic_insert_drive_file_black_48dp_1x.png')
         self.setWindowIcon(QIcon(window_icon))
@@ -95,6 +98,13 @@ class Ente(QMainWindow):
         password, _ = QInputDialog.getText(
                 self, 'Password', 'Password for {}'.format(username),
                 QLineEdit.Password)
+        machines = [1]  # TODO determine which machines can be activated
+        try:
+            for machine in machines:
+                self.control.activate(machine)
+        except RuntimeError as e:
+            self.notify(str(e))
+            return
         print('activated by {}!'.format(username))  # TODO actually activate
 
     def notify(self, message):
