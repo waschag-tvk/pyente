@@ -24,9 +24,9 @@ class Client:
         return AuthenticatedSession(self, token)
 
     def activate(self, token, machine):
-        appointment = filter(
+        appointment = list(filter(
                 lambda a: a['machine'] == machine,
-                get_available_appointments())
+                get_available_appointments()))
         if len(appointment) != 1:
             raise RuntimeError(
                     'Appointment for the machine not available or ambiguous!')
