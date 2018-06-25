@@ -35,7 +35,7 @@ class Ente(QMainWindow):
         self.addToolBar(self.user_toolbar())
 
         self.status_bar = self.statusBar()
-        self.status_bar.showMessage('Ready', 5000)
+        self.notify('Ready')
 
     def user_toolbar(self):
         user_toolbar = QToolBar('User')
@@ -96,6 +96,9 @@ class Ente(QMainWindow):
                 self, 'Password', 'Password for {}'.format(username),
                 QLineEdit.Password)
         print('activated by {}!'.format(username))  # TODO actually activate
+
+    def notify(self, message):
+        self.status_bar.showMessage(message, 5000)
 
 
 def main():
