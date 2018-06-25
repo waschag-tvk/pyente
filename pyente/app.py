@@ -21,6 +21,7 @@ class Ente(QMainWindow):
         super(Ente, self).__init__(parent)
         self.resize(1024, 768)
         self.setWindowTitle('Ente')
+        self.setWindowState(Qt.WindowFullScreen)
         self.control = Control()
         window_icon = pkg_resources.resource_filename('pyente.images',
                                                       'ic_insert_drive_file_black_48dp_1x.png')
