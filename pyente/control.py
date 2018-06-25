@@ -7,7 +7,7 @@ class Control:
 
     def activate(self, machine):
         status, output = subprocess.getstatusoutput(
-                '%s %d'.format(self.relaisctl_path, machine))
+                '{} {:d}'.format(self.relaisctl_path, machine))
         print('[relaisctl] ' + output)
         if status != 0:
             raise RuntimeError(
